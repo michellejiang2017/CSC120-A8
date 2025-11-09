@@ -3,15 +3,17 @@ import java.util.Hashtable;
 public class Library extends Building implements LibraryRequirements{
 
   private Hashtable<String, Boolean> collection; 
+  private boolean hasElevator; 
   /**
    * Constructor for Library class
    * @param name Library's name
    * @param address Library's address
    * @param nFloors Number of floors in library
    */
-    public Library(String name, String address, int nFloors) {
+    public Library(String name, String address, int nFloors, boolean hasElevator) {
       super(name, address, nFloors); 
       this.collection = new Hashtable<String, Boolean>(); 
+      this.hasElevator = hasElevator; 
       System.out.println("You have built a library: 📖");
     }
   
@@ -95,14 +97,23 @@ public class Library extends Building implements LibraryRequirements{
       System.out.println("Available options at " + this.name + ":\n + addTitle(n) \n + removeTitle(n) \n + checkOut(n) \n + returnBook(n)\n + containsTitle(n)\n + isAvailable(n)");
     }
 
+    public void goToFloor(int floorNum, boolean hasElevator) {
+        if (!this.hasElevator) {
+          throw new RuntimeException("This building does not have an elevator."); 
+        }
+        super.goToFloor(floorNum);
+    }
+
     public static void main(String[] args) {
-      Library library = new Library("Neilson Library", "123 Chapin Street", 4);
+      Library library = new Library("Neilson Library", "123 Chapin Street", 4, true);
       String[] titles = {"The Hunger Games", "Divergent", "The Giver", "Geronimo Stilton", "Braiding Sweetgrass", "Coding for Dummies", "The Night Ends with Fire"}; 
       for (int i=0; i< titles.length; i++) { 
         library.addTitle(titles[i]);
         System.out.println(titles[i] + " added.");
       }
       library.showOptions();
+      library.enter(); 
+      library.goToFloor(4);
       library.checkOut(titles[3]);
       library.printCollection();
     }

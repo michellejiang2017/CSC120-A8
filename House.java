@@ -3,14 +3,16 @@ import java.util.ArrayList;
 public class House extends Building implements HouseRequirements{
   private ArrayList<Student> residents; 
   private boolean hasDiningRoom;
+  private boolean hasElevator; 
 
   /** 
    * Constructor for House Class 
    */
-  public House(String name, String address, int nFloors, boolean hasDiningRoom) { 
+  public House(String name, String address, int nFloors, boolean hasDiningRoom, boolean hasElevator) { 
     super(name, address, nFloors); 
     this.residents = new ArrayList<Student>(); 
     this.hasDiningRoom = hasDiningRoom; 
+    this.hasElevator = hasElevator; 
     System.out.println("You have built a house: 🏠");
   }
 
@@ -76,9 +78,18 @@ public class House extends Building implements HouseRequirements{
     System.out.println("Available options at " + this.name + ":\n + hasDiningRoom() \n + nResidents() \n + moveIn(n) \n + moveOut(n)\n + isResident(n)");
   }
 
+  public void goToFloor(int floorNum, boolean hasElevator) {
+        if (!this.hasElevator) {
+          throw new RuntimeException("This building does not have an elevator."); 
+        }
+        super.goToFloor(floorNum);
+    }
+
   public static void main(String[] args) {
-    House House = new House("Northrop", "1 Elm Street", 5, true); 
+    House House = new House("Northrop", "1 Elm Street", 5, true, true); 
     House.showOptions(); 
+    House.enter();
+    House.goToFloor(4);
     System.out.println(House.toString());
     Student ab = new Student("Ab", "9909abc", 2014);
     House.moveIn(ab);
