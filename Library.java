@@ -29,6 +29,7 @@ public class Library extends Building implements LibraryRequirements{
     this.name = name; 
     this.address = address; 
   }
+  
   /**
    * Constructor for Library class
    * @param name Library's name
@@ -121,7 +122,8 @@ public class Library extends Building implements LibraryRequirements{
      */
     @Override
     public void showOptions() { 
-      System.out.println("Available options at " + this.name + ":\n + addTitle(n) \n + removeTitle(n) \n + checkOut(n) \n + returnBook(n)\n + containsTitle(n)\n + isAvailable(n)");
+      super.showOptions(); 
+      System.out.println(" + addTitle(n) \n + removeTitle(n) \n + checkOut(n) \n + returnBook(n)\n + containsTitle(n)\n + isAvailable(n)");
     }
 
     /**
@@ -129,15 +131,15 @@ public class Library extends Building implements LibraryRequirements{
      */
     @Override
     public void goToFloor(int floorNum) {
-          if ((floorNum+1 != this.activeFloor || floorNum-1 != this.activeFloor) && !this.hasElevator) {
-            throw new RuntimeException("This building does not have an elevator."); 
+          if (!((floorNum == this.activeFloor + 1) || (floorNum == this.activeFloor - 1)) && !this.hasElevator) {
+              throw new RuntimeException("This building does not have an elevator. Cannot move to non-adjacent floors without an elevator.");
           }
           super.goToFloor(floorNum);
       }
 
 
     public static void main(String[] args) {
-      Library library = new Library("Neilson Library", "123 Chapin Street", 4, true);
+      Library library = new Library("Neilson Library", "123 Chapin Street", 4, false);
       String[] titles = {"The Hunger Games", "Divergent", "The Giver", "Geronimo Stilton", "Braiding Sweetgrass", "Coding for Dummies", "The Night Ends with Fire"}; 
       for (int i=0; i< titles.length; i++) { 
         library.addTitle(titles[i]);
@@ -145,7 +147,7 @@ public class Library extends Building implements LibraryRequirements{
       }
       library.showOptions();
       library.enter(); 
-      library.goToFloor(4);
+      library.goToFloor(2);
       library.checkOut(titles[3]);
       library.printCollection();
     }

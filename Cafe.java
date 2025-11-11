@@ -87,7 +87,8 @@ public class Cafe extends Building implements CafeRequirements {
      */
     @Override
     public void showOptions() { 
-        System.out.println("Available options at " + this.name + ":\n + sellCoffee(n) \n + restock()");
+        super.showOptions();
+        System.out.println(" + sellCoffee(n) \n + restock()");
     }
 
     /**
@@ -95,7 +96,7 @@ public class Cafe extends Building implements CafeRequirements {
      */
     @Override
     public void goToFloor(int floorNum) {
-        if (floorNum != activeFloor) {
+        if (floorNum != 1) {
           throw new RuntimeException("This building only has one floor."); 
         }
     }

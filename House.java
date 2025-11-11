@@ -104,7 +104,8 @@ public class House extends Building implements HouseRequirements{
    */
   @Override
   public void showOptions() { 
-    System.out.println("Available options at " + this.name + ":\n + hasDiningRoom() \n + nResidents() \n + moveIn(n) \n + moveOut(n)\n + isResident(n)");
+    super.showOptions();
+    System.out.println(" + hasDiningRoom() \n + nResidents() \n + moveIn(n) \n + moveOut(n)\n + isResident(n)");
   }
 
   /**
@@ -112,8 +113,8 @@ public class House extends Building implements HouseRequirements{
    */
   @Override
   public void goToFloor(int floorNum) {
-        if ((floorNum+1 != this.activeFloor || floorNum-1 != this.activeFloor) && !this.hasElevator) {
-          throw new RuntimeException("This building does not have an elevator."); 
+        if (!((floorNum == this.activeFloor + 1) || (floorNum == this.activeFloor - 1)) && !this.hasElevator) {
+            throw new RuntimeException("This building does not have an elevator. Cannot move to non-adjacent floors without an elevator.");
         }
         super.goToFloor(floorNum);
     }
