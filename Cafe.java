@@ -5,8 +5,24 @@ public class Cafe extends Building implements CafeRequirements {
     private int nCreams; // The number of "splashes" of cream remaining in inventory
     private int nCups; // The number of cups remaining in inventory
 
+    /* Default constructor */
+    public Cafe() {
+        this("<Name Unknown>", "<Address Unknown>", 1, 0, 0, 0, 0);
+    }
+
+    /* Overloaded constructor with address only */
+    public Cafe(String address)  { 
+        this(); 
+        this.address = address; 
+    }
+
+    /* Overloaded constructor with name and address */
+    public Cafe(String name, String address) {
+        this(name, address, 1, 0, 0, 0, 0); 
+    }
+
     /**
-     * Constructor for cafe class
+     * Full constructor for cafe class
      * @param name the name of the cafe
      * @param address the address of the cafe
      * @param nFloors the number of floors in the building
@@ -67,11 +83,23 @@ public class Cafe extends Building implements CafeRequirements {
     }
     
     /**
-     * Is this overriding the showOptions() method from building? 
+     * Overrides the showOptions method from building class to use the options from this class
      */
+    @Override
     public void showOptions() { 
         System.out.println("Available options at " + this.name + ":\n + sellCoffee(n) \n + restock()");
     }
+
+    /**
+     * Overrides the goToFloor method from Building class to account for cafe
+     */
+    @Override
+    public void goToFloor(int floorNum) {
+        if (floorNum != activeFloor) {
+          throw new RuntimeException("This building only has one floor."); 
+        }
+    }
+
     public static void main(String[] args) {
         Cafe compassCafe = new Cafe("Compass Cafe", "1 Chapin Way", 1, 10, 10, 10, 2);
         compassCafe.showOptions();

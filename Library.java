@@ -4,11 +4,37 @@ public class Library extends Building implements LibraryRequirements{
 
   private Hashtable<String, Boolean> collection; 
   private boolean hasElevator; 
+
+  /* Default constructor */
+  public Library() { 
+    this("<Name Unknown>", "<Address Unknown>", 1, false); 
+  }
+
+  /**
+   * Overloaded constructor with address only 
+   * @param address the address of the library 
+   */
+  public Library(String address) { 
+    this(); 
+    this.address = address; 
+  }
+
+  /**
+   * Overloaded constructor with name and address
+   * @param name the name of the library
+   * @param address the address of the library
+   */
+  public Library(String name, String address) { 
+    this(); 
+    this.name = name; 
+    this.address = address; 
+  }
   /**
    * Constructor for Library class
    * @param name Library's name
    * @param address Library's address
    * @param nFloors Number of floors in library
+   * @param hasElevator whether or not the library has an elevator
    */
     public Library(String name, String address, int nFloors, boolean hasElevator) {
       super(name, address, nFloors); 
@@ -91,18 +117,24 @@ public class Library extends Building implements LibraryRequirements{
     }
 
     /**
-    * Is this overriding the showOptions() method from building? 
-    */
+     * Overrides the showOptions method from building class to use the options from this class
+     */
+    @Override
     public void showOptions() { 
       System.out.println("Available options at " + this.name + ":\n + addTitle(n) \n + removeTitle(n) \n + checkOut(n) \n + returnBook(n)\n + containsTitle(n)\n + isAvailable(n)");
     }
 
-    public void goToFloor(int floorNum, boolean hasElevator) {
-        if (!this.hasElevator) {
-          throw new RuntimeException("This building does not have an elevator."); 
-        }
-        super.goToFloor(floorNum);
-    }
+    /**
+     * Overrides the goToFloor method from Building class to account for elevators
+     */
+    @Override
+    public void goToFloor(int floorNum) {
+          if ((floorNum+1 != this.activeFloor || floorNum-1 != this.activeFloor) && !this.hasElevator) {
+            throw new RuntimeException("This building does not have an elevator."); 
+          }
+          super.goToFloor(floorNum);
+      }
+
 
     public static void main(String[] args) {
       Library library = new Library("Neilson Library", "123 Chapin Street", 4, true);

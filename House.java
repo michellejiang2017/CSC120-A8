@@ -5,8 +5,36 @@ public class House extends Building implements HouseRequirements{
   private boolean hasDiningRoom;
   private boolean hasElevator; 
 
+  /* Default Constructor */
+  public House() { 
+    this("<Name Unknown>", "<Address Unknown>", 1, false, false); 
+  }
+
+  /**
+   * Overloaded constructor with address only
+   * @param address the address of the house
+   */
+  public House(String address) { 
+    this(); 
+    this.address = address; 
+  }
+
+  /**
+   * Overloaded constructor with name and address
+   * @param name the name of the house
+   * @param address the address of the house
+   */
+  public House(String name, String address) { 
+    this(); 
+    this.name = name; 
+    this.address = address; 
+  }
   /** 
    * Constructor for House Class 
+   * @param name the name of the house 
+   * @param address the house's address 
+   * @param nFloors the number of floors in the house 
+   * @param hasElevator whether or not the house has an elevator
    */
   public House(String name, String address, int nFloors, boolean hasDiningRoom, boolean hasElevator) { 
     super(name, address, nFloors); 
@@ -72,14 +100,19 @@ public class House extends Building implements HouseRequirements{
   }
 
   /**
-   * Is this overriding the showOptions() method from building? 
+   * Overrides the showOptions method from building class to use the options from this class
    */
+  @Override
   public void showOptions() { 
     System.out.println("Available options at " + this.name + ":\n + hasDiningRoom() \n + nResidents() \n + moveIn(n) \n + moveOut(n)\n + isResident(n)");
   }
 
-  public void goToFloor(int floorNum, boolean hasElevator) {
-        if (!this.hasElevator) {
+  /**
+   * Overrides the goToFloor method from Building class to account for elevators
+   */
+  @Override
+  public void goToFloor(int floorNum) {
+        if ((floorNum+1 != this.activeFloor || floorNum-1 != this.activeFloor) && !this.hasElevator) {
           throw new RuntimeException("This building does not have an elevator."); 
         }
         super.goToFloor(floorNum);
